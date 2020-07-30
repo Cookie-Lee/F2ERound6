@@ -1,6 +1,5 @@
 <template>
   <div>
-    Index
     <Banner />
     <Rooms />
     <Footer />
