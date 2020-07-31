@@ -1,44 +1,132 @@
 <template>
   <div class="d-flex justify-center roomcardmain">
-    <div class="roomcardtitle">Double Room</div>
+    <div class="roomcardtitle">
+      {{ room.name }}
+    </div>
     <v-card class="roomcard">
       <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+        :src="imageUrl"
         class="roomcardimg"
+        min-height="300"
+        min-width="300"
       ></v-img>
       <div class="d-flex justify-space-between roomcardsubtitleblock">
         <div class="text-center roomcardsubtitle">
           <div>人數</div>
-          <div>2~3</div>
+          <div>
+            {{
+              room.descriptionShort
+                ? room.descriptionShort.GuestMax ===
+                  room.descriptionShort.GuestMin
+                  ? room.descriptionShort.GuestMin
+                  : `${room.descriptionShort.GuestMin}~${room.descriptionShort.GuestMax}`
+                : ""
+            }}
+          </div>
         </div>
         <div class="text-center roomcardsubtitle">
           <div>床</div>
-          <div>Double</div>
+          <div>
+            {{
+              room.descriptionShort ? room.descriptionShort.Bed.toString() : ""
+            }}
+          </div>
         </div>
         <div class="text-center roomcardsubtitle">
           <div>大小</div>
           <div>
-            26<span>m<sup>2</sup></span>
+            {{ room.descriptionShort ? room.descriptionShort.Footage : ""
+            }}<span>m<sup>2</sup></span>
           </div>
         </div>
       </div>
       <v-divider style="margin-top: 12px; margin-bottom: 12px;"></v-divider>
       <div class="roomcardcontent">
-        wifi , 早餐 , 小吧檯 , 客房服務 , 電話 , 空調 , 冰箱 , 禁止吸煙 ,
-        適合兒童 , 可帶寵物
+        {{ roomAmenities }}
       </div>
       <v-divider style="margin-top: 14px; margin-bottom: 14px;"></v-divider>
       <div class="roomcardpriceh d-flex justify-center">
         <div class="align-self-center">假日</div>
-        <div>$2500</div>
+        <div>${{ room.holidayPrice }}</div>
       </div>
       <div class="roomcardpricen d-flex justify-center">
         <div class="align-self-center">平日</div>
-        <div>$2460</div>
+        <div>${{ room.normalDayPrice }}</div>
       </div>
     </v-card>
   </div>
 </template>
+<script>
+export default {
+  name: "RoomCard",
+  props: ["uid", "imageUrl"],
+  data: () => ({
+    room: {},
+  }),
+  computed: {
+    roomAmenities() {
+      let amenities = [];
+      if (this.room.amenities) {
+        if (this.room.amenities["Wi-Fi"]) {
+          amenities.push(" wifi");
+        }
+        if (this.room.amenities["Breakfast"]) {
+          amenities.push(" 早餐");
+        }
+        if (this.room.amenities["Mini-Bar"]) {
+          amenities.push(" 小吧檯");
+        }
+        if (this.room.amenities["Room-Service"]) {
+          amenities.push(" 客房服務");
+        }
+        if (this.room.amenities["Television"]) {
+          amenities.push(" 電視");
+        }
+        if (this.room.amenities["Air-Conditioner"]) {
+          amenities.push(" 冷氣");
+        }
+        if (this.room.amenities["Refrigerator"]) {
+          amenities.push(" 冰箱");
+        }
+        if (this.room.amenities["Sofa"]) {
+          amenities.push(" 沙發");
+        }
+        if (this.room.amenities["Great-View"]) {
+          amenities.push(" 景觀");
+        }
+        if (this.room.amenities["Smoke-Free"]) {
+          amenities.push(" 禁止吸煙");
+        }
+        if (this.room.amenities["Child-Friendly"]) {
+          amenities.push(" 適合兒童");
+        }
+        if (this.room.amenities["Pet-Friendly"]) {
+          amenities.push(" 可帶寵物");
+        }
+      }
+      return amenities.toString();
+    },
+  },
+  created() {
+    this.$http({
+      method: "get",
+      headers: {
+        Accept: "application/json",
+        Authorization:
+          "Bearer TyAhyPQ0BDpZZyZkG8wGmSGh0RQAb8frGPjKyMvf4XbPv3zXyENPv5csmmKq",
+      },
+      url:
+        "https://challenge.thef2e.com/api/thef2e2019/stage6/room/" + this.uid,
+    })
+      .then((res) => {
+        this.room = res.data.room[0];
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+};
+</script>
 <style scoped>
 .roomcardmain {
   margin-top: 65px;
@@ -51,7 +139,7 @@
   text-orientation: sideways;
   transform: rotate(-180deg);
   text-align: right;
-  margin-right: -13px;
+  width: 35px;
   margin-top: 10px;
   font-family: Adobe Hebrew Regular;
 }
