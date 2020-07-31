@@ -9,3 +9,6 @@ export default {
   data: () => ({}),
 };
 </script>
+<style>
+@import "./assets/font/font.css";
+</style>

@@ -51,6 +51,7 @@ export default {
   letter-spacing: 0px;
   color: #425752;
   height: 35vw;
+  font-family: AdobeMingStd-Light;
 }
 .myBanner {
   overflow: visible;

@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Adobe Hebrew Regular";
+  src: url("../font/Adobe\ Hebrew\ Regular.otf") format("woff"),
+    url("../font/Adobe\ Hebrew\ Regular.otf") format("truetype"),
+    url("../font/Adobe\ Hebrew\ Regular.otf") format("embedded-opentype");
+}
+@font-face {
+  font-family: "AdobeMingStd-Light";
+  src: url("../font/AdobeMingStd-Light.otf") format("woff"),
+    url("../font/AdobeMingStd-Light.otf") format("truetype"),
+    url("../font/AdobeMingStd-Light.otf") format("embedded-opentype");
+}
