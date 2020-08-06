@@ -13,8 +13,14 @@
         <span>班</span>
       </div>
     </div>
-    <div class="slidetext">Slide</div>
-    <div class="slideicon"><span>></span><span>></span></div>
+    <div style="text-align: center;">
+      <button @click="slideClick" style="outline: none;">
+        <div class="slidetext">
+          Slide
+        </div>
+        <div class="slideicon"><span>></span><span>></span></div>
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -23,14 +29,24 @@ import imgLogo from "../assets/logo2.svg";
 export default {
   name: "Index",
   data: () => ({
+    scrollOptions: {
+      duration: 600,
+      easing: "linear",
+    },
     imgRoom2,
     imgLogo,
   }),
+  methods: {
+    slideClick() {
+      this.$vuetify.goTo("#rooms", this.scrollOptions);
+    },
+  },
 };
 </script>
 <style scoped>
 .main {
   margin-top: 5vh;
+  min-height: 100vh;
 }
 .mainTitle {
   background-image: url("../assets/房2.png");
@@ -64,7 +80,7 @@ export default {
   letter-spacing: 4.32px;
   color: #425752;
   opacity: 0.66;
-  margin-top: 6px;
+  margin-top: 60px;
 }
 .slideicon {
   text-align: center;

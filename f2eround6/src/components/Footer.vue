@@ -1,6 +1,9 @@
 <template>
   <div class="main d-flex justify-end">
-    <v-img :src="imgLogo" max-width="57" max-height="54"></v-img>
+    <div>
+      <v-img :src="imgLogo" max-width="57" max-height="54"></v-img>
+      <div class="footertitle">不想上班</div>
+    </div>
     <v-divider vertical class="footerdivider align-self-center"></v-divider>
     <div>
       <div
@@ -44,9 +47,17 @@ export default {
   padding-bottom: 30px;
   padding-right: 120px;
 }
+.footertitle {
+  margin-top: 12px;
+  text-align: left;
+  letter-spacing: 7.38px;
+  color: #e3eae2;
+  font-size: 12px;
+  font-family: AdobeMingStd-Light;
+}
 .footerdivider {
-  margin-left: 35px;
-  margin-right: 35px;
+  margin-left: 28px;
+  margin-right: 28px;
   border-width: 1px;
   background-color: #e3eae2;
   height: 35px;

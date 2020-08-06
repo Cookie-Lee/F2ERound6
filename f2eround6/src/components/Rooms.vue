@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="rooms">
     <div class="roomstitle">ROOMS</div>
     <div class="row">
       <RoomCard

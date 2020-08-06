@@ -3,57 +3,63 @@
     <div class="roomcardtitle">
       {{ room.name }}
     </div>
-    <v-card class="roomcard">
-      <v-img
-        :src="imageUrl"
-        class="roomcardimg"
-        min-height="300"
-        min-width="300"
-      ></v-img>
-      <div class="d-flex justify-space-between roomcardsubtitleblock">
-        <div class="text-center roomcardsubtitle">
-          <div>人數</div>
-          <div>
-            {{
-              room.descriptionShort
-                ? room.descriptionShort.GuestMax ===
-                  room.descriptionShort.GuestMin
-                  ? room.descriptionShort.GuestMin
-                  : `${room.descriptionShort.GuestMin}~${room.descriptionShort.GuestMax}`
-                : ""
-            }}
+    <v-skeleton-loader :loading="loading" type="card-avatar, article, actions">
+      <v-card class="roomcard" @click="goto">
+        <v-img
+          :src="imageUrl"
+          class="roomcardimg"
+          min-height="300"
+          min-width="300"
+        ></v-img>
+        <div class="d-flex justify-space-between roomcardsubtitleblock">
+          <div class="text-center roomcardsubtitle">
+            <div>人數</div>
+            <div>
+              {{
+                room.descriptionShort
+                  ? room.descriptionShort.GuestMax ===
+                    room.descriptionShort.GuestMin
+                    ? room.descriptionShort.GuestMin
+                    : `${room.descriptionShort.GuestMin}~${room.descriptionShort.GuestMax}`
+                  : ""
+              }}
+            </div>
+          </div>
+          <div class="text-center roomcardsubtitle">
+            <div>床</div>
+            <div>
+              {{
+                room.descriptionShort
+                  ? room.descriptionShort.Bed.toString()
+                  : ""
+              }}
+            </div>
+          </div>
+          <div class="text-center roomcardsubtitle">
+            <div>大小</div>
+            <div>
+              {{ room.descriptionShort ? room.descriptionShort.Footage : ""
+              }}<span>m<sup>2</sup></span>
+            </div>
           </div>
         </div>
-        <div class="text-center roomcardsubtitle">
-          <div>床</div>
-          <div>
-            {{
-              room.descriptionShort ? room.descriptionShort.Bed.toString() : ""
-            }}
-          </div>
+        <v-divider style="margin-top: 12px; margin-bottom: 12px;"></v-divider>
+        <div
+          class="roomcardcontent d-flex align-center justify-center text-center"
+        >
+          {{ roomAmenities }}
         </div>
-        <div class="text-center roomcardsubtitle">
-          <div>大小</div>
-          <div>
-            {{ room.descriptionShort ? room.descriptionShort.Footage : ""
-            }}<span>m<sup>2</sup></span>
-          </div>
+        <v-divider style="margin-top: 14px; margin-bottom: 14px;"></v-divider>
+        <div class="roomcardpriceh d-flex justify-center">
+          <div class="align-self-center">假日</div>
+          <div>${{ room.holidayPrice }}</div>
         </div>
-      </div>
-      <v-divider style="margin-top: 12px; margin-bottom: 12px;"></v-divider>
-      <div class="roomcardcontent">
-        {{ roomAmenities }}
-      </div>
-      <v-divider style="margin-top: 14px; margin-bottom: 14px;"></v-divider>
-      <div class="roomcardpriceh d-flex justify-center">
-        <div class="align-self-center">假日</div>
-        <div>${{ room.holidayPrice }}</div>
-      </div>
-      <div class="roomcardpricen d-flex justify-center">
-        <div class="align-self-center">平日</div>
-        <div>${{ room.normalDayPrice }}</div>
-      </div>
-    </v-card>
+        <div class="roomcardpricen d-flex justify-center">
+          <div class="align-self-center">平日</div>
+          <div>${{ room.normalDayPrice }}</div>
+        </div>
+      </v-card>
+    </v-skeleton-loader>
   </div>
 </template>
 <script>
@@ -62,7 +68,13 @@ export default {
   props: ["uid", "imageUrl"],
   data: () => ({
     room: {},
+    loading: true,
   }),
+  methods: {
+    goto() {
+      this.$router.push({ name: "Reservation", params: { room: this.room } });
+    },
+  },
   computed: {
     roomAmenities() {
       let amenities = [];
@@ -120,6 +132,7 @@ export default {
     })
       .then((res) => {
         this.room = res.data.room[0];
+        this.loading = false;
       })
       .catch((err) => {
         console.log(err);
@@ -175,12 +188,12 @@ export default {
   font-size: 12px;
 }
 .roomcardcontent {
-  text-align: center;
   font-size: 12px;
   letter-spacing: 0px;
   color: #496146;
   margin-left: 10px;
   margin-right: 10px;
+  min-height: 36px;
   font-family: Microsoft JhengHei;
 }
 .roomcardpriceh div:nth-child(1) {
