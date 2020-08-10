@@ -25,7 +25,10 @@
     <div class="pa-4 mt-11 resinfoamenities">
       <div>{{ myAmenities }}</div>
     </div>
-    <div class="ml-12 mr-12 mt-8 d-flex justify-space-between resinfocontent3">
+    <div
+      class="ml-12 mr-12 mt-8 d-flex justify-space-between resinfocontent3"
+      v-if="checkinswitch"
+    >
       <div>
         <div>
           <div>checkIn 時間</div>
@@ -56,7 +59,7 @@
 <script>
 export default {
   name: "ReservationInfo",
-  props: ["room"],
+  props: ["room", "checkinswitch"],
   computed: {
     myContent2() {
       /* 計算床數 */

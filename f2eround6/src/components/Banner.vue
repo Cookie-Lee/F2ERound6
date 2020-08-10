@@ -1,8 +1,12 @@
 <template>
   <div class="main">
     <div class="d-flex justify-space-around align-center">
-      <v-img :src="imgLogo" class="myLogo"></v-img>
-      <v-img :src="imgRoom2" class="myBanner col-6 d-flex align-center">
+      <v-img :src="imgLogo" max-height="54" max-width="57"></v-img>
+      <v-img
+        :src="imgRoom2"
+        max-width="50%"
+        class="myBanner d-flex align-center"
+      >
         <div class="myTitle1">I don't want to work</div>
       </v-img>
       <div class="myTitle2 d-flex align-content-space-between flex-wrap">
@@ -45,15 +49,11 @@ export default {
 </script>
 <style scoped>
 .main {
-  margin-top: 5vh;
+  margin-top: 58px;
   min-height: 100vh;
 }
 .mainTitle {
   background-image: url("../assets/房2.png");
-}
-.myLogo {
-  max-width: 5.7vw;
-  max-height: 5.4vw;
 }
 .myTitle1 {
   font: Italic 4.8vw Rage;
@@ -62,11 +62,11 @@ export default {
   width: 690px;
 }
 .myTitle2 {
-  width: 2.8vw;
-  font-size: 2.8vw;
+  width: 36px;
+  font-size: 36px;
   letter-spacing: 0px;
   color: #425752;
-  height: 35vw;
+  height: 352px;
   font-family: AdobeMingStd-Light;
 }
 .myBanner {
@@ -76,7 +76,7 @@ export default {
 }
 .slidetext {
   text-align: center;
-  font: Italic 2.1vw Rage;
+  font: Italic 27px Rage;
   letter-spacing: 4.32px;
   color: #425752;
   opacity: 0.66;
@@ -84,7 +84,7 @@ export default {
 }
 .slideicon {
   text-align: center;
-  font: Italic 2.1vw Rage;
+  font: Italic 27px Rage;
   letter-spacing: 4.32px;
   color: #425752;
   opacity: 0.66;
