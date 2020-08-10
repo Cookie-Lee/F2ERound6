@@ -1,65 +1,83 @@
 <template>
   <div class="resblock pl-6 pr-6 pt-2 pb-12">
-    <div>
-      <span>日期</span>
-      <v-menu
-        :close-on-content-click="false"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="myDates"
-            readonly
-            outlined
-            dense
-            color="#a5bb94"
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="dates"
-          color="#72916E"
-          no-title
-          range
-          scrollable
-          locale="zh-tw"
+    <v-form ref="form">
+      <div>
+        <span>日期</span>
+        <v-menu
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
         >
-        </v-date-picker>
-      </v-menu>
-    </div>
-    <div>
-      <span>姓名</span>
-      <v-text-field
-        outlined
-        dense
-        color="#a5bb94"
-        v-model="name"
-      ></v-text-field>
-    </div>
-    <div>
-      <span>電話</span>
-      <v-text-field
-        outlined
-        dense
-        color="#a5bb94"
-        v-model="phone"
-      ></v-text-field>
-    </div>
-    <div>
-      <v-btn color="#496146" dark block height="63" class="mt-4"
-        >確定預定日期
-      </v-btn>
-    </div>
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="myDates"
+              readonly
+              outlined
+              dense
+              color="#a5bb94"
+              v-bind="attrs"
+              v-on="on"
+              required
+              :rules="[(v) => !!v || '請選擇日期']"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="dates"
+            color="#72916E"
+            no-title
+            range
+            scrollable
+            locale="zh-tw"
+          >
+          </v-date-picker>
+        </v-menu>
+      </div>
+      <div>
+        <span>姓名</span>
+        <v-text-field
+          outlined
+          dense
+          color="#a5bb94"
+          v-model="name"
+          required
+          :rules="[(v) => !!v || '姓名必填']"
+        ></v-text-field>
+      </div>
+      <div>
+        <span>電話</span>
+        <v-text-field
+          outlined
+          dense
+          color="#a5bb94"
+          v-model="phone"
+          required
+          :rules="[(v) => !!v || '電話必填']"
+        ></v-text-field>
+      </div>
+      <div>
+        <v-btn
+          color="#496146"
+          dark
+          block
+          height="63"
+          class="mt-4"
+          @click="submit"
+          >確定預定日期
+        </v-btn>
+      </div>
+      <v-alert v-if="alertmsg" class="mt-2" dense outlined type="error">
+        {{ alertmsg }}
+      </v-alert>
+    </v-form>
   </div>
 </template>
 <script>
 export default {
   name: "ReservationCard",
-  data: () => ({ dates: [], name: "", phone: "" }),
+  data: () => ({ dates: [], name: "", phone: "", alertmsg: "" }),
+  props: ["roomid"],
   computed: {
     myDates() {
       //如果dates沒有值或dates長度是0就回傳空字串
@@ -86,6 +104,33 @@ export default {
       }
       //回傳最後的字串
       return str;
+    },
+  },
+  methods: {
+    submit() {
+      if (this.$refs.form.validate()) {
+        this.$http({
+          method: "post",
+          headers: {
+            Accept: "application/json",
+            Authorization:
+              "Bearer TyAhyPQ0BDpZZyZkG8wGmSGh0RQAb8frGPjKyMvf4XbPv3zXyENPv5csmmKq",
+            "Content-Type": "application/json",
+          },
+          url: `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${this.roomid}`,
+          data: JSON.stringify({
+            name: this.name,
+            tel: this.phone,
+            date: this.dates,
+          }),
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            this.alertmsg = err.response.data.message;
+          });
+      }
     },
   },
 };
