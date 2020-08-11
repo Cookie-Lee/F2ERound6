@@ -126,6 +126,8 @@ export default {
         })
           .then((res) => {
             console.log(res);
+            this.$emit("setSuccess", res.data.success);
+            this.$emit("setBooking", res.data.booking);
           })
           .catch((err) => {
             this.alertmsg = err.response.data.message;

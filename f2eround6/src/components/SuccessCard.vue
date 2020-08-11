@@ -4,36 +4,44 @@
       <div class="successcardtitle">預約成功!</div>
       <div class="mt-8">
         <span>姓名</span>
-        <span class="pl-4">王小明</span>
+        <span class="pl-4">{{ booking[0].name }}</span>
       </div>
       <div class="mt-7">
         <span>電話</span>
-        <span class="pl-4">0966666666</span>
+        <span class="pl-4">{{ booking[0].tel }}</span>
       </div>
       <div class="mt-7">
         <span>日期</span>
       </div>
-      <div class="mt-4 d-flex justify-space-between">
-        <div><span>平日(一~四)</span></div>
+      <div v-if="normaldaynum > 0" class="mt-4 d-flex justify-space-between">
+        <div><span>平日(一~五)</span></div>
         <div>
-          <span>$1380</span>
+          <span>${{ room.normalDayPrice }}</span>
           <span class="ml-3 mr-3">x</span>
-          <span>2晚</span>
+          <span>{{ normaldaynum }}晚</span>
         </div>
-        <div><span>$2760</span></div>
+        <div>
+          <span>${{ room.normalDayPrice * normaldaynum }}</span>
+        </div>
       </div>
-      <div class="mt-4 d-flex justify-space-between">
+      <div v-if="holidaynum > 0" class="mt-4 d-flex justify-space-between">
         <div><span>假日(六~日)</span></div>
         <div>
-          <span>$1500</span>
+          <span>${{ room.holidayPrice }}</span>
           <span class="ml-3 mr-3">x</span>
-          <span>1晚</span>
+          <span>{{ holidaynum }}晚</span>
         </div>
-        <div><span>$1500</span></div>
+        <div>
+          <span>${{ room.holidayPrice * holidaynum }}</span>
+        </div>
       </div>
       <v-divider class="mt-3" color="#A5BB94"></v-divider>
       <div class="mt-4">
-        <span>$4260</span>
+        <span
+          >${{
+            normaldaynum * room.normalDayPrice + holidaynum * room.holidayPrice
+          }}</span
+        >
       </div>
     </div>
     <div class="successalert mt-3 pt-3 pl-10 pr-10 pb-4">
@@ -41,16 +49,42 @@
       <div class="d-flex justify-space-between">
         <div>
           <div><span>checkIn 時間</span></div>
-          <div><span class="alertvalue">15:00~21:00</span></div>
+          <div>
+            <span class="alertvalue"
+              >{{ room.checkInAndOut.checkInEarly }}~{{
+                room.checkInAndOut.checkInLate
+              }}</span
+            >
+          </div>
         </div>
         <div>
           <div><span>最晚checkout 時間</span></div>
-          <div><span class="alertvalue">10:00</span></div>
+          <div>
+            <span class="alertvalue">{{ room.checkInAndOut.checkOut }}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: "SuccessCard",
+  props: ["booking", "room"],
+  computed: {
+    normaldaynum() {
+      return this.booking.filter(function(item) {
+        return [1, 2, 3, 4, 5].indexOf(new Date(item.date).getDay()) > -1;
+      }).length;
+    },
+    holidaynum() {
+      return this.booking.filter(function(item) {
+        return [0, 6].indexOf(new Date(item.date).getDay()) > -1;
+      }).length;
+    },
+  },
+};
+</script>
 <style scoped>
 .main {
   margin-left: 112px;
@@ -85,10 +119,10 @@
   font-size: 16px;
   font-family: Microsoft JhengHei;
 }
-.successcard div:nth-child(8) {
+.successcard div:last-child {
   text-align: right;
 }
-.successcard div:nth-child(8) span {
+.successcard div:last-child span {
   text-align: left;
   letter-spacing: 0px;
   color: #425752;
