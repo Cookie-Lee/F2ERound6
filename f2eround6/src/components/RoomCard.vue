@@ -79,42 +79,25 @@ export default {
     roomAmenities() {
       let amenities = [];
       if (this.room.amenities) {
-        if (this.room.amenities["Wi-Fi"]) {
-          amenities.push(" wifi");
-        }
-        if (this.room.amenities["Breakfast"]) {
-          amenities.push(" 早餐");
-        }
-        if (this.room.amenities["Mini-Bar"]) {
-          amenities.push(" 小吧檯");
-        }
-        if (this.room.amenities["Room-Service"]) {
-          amenities.push(" 客房服務");
-        }
-        if (this.room.amenities["Television"]) {
-          amenities.push(" 電視");
-        }
-        if (this.room.amenities["Air-Conditioner"]) {
-          amenities.push(" 冷氣");
-        }
-        if (this.room.amenities["Refrigerator"]) {
-          amenities.push(" 冰箱");
-        }
-        if (this.room.amenities["Sofa"]) {
-          amenities.push(" 沙發");
-        }
-        if (this.room.amenities["Great-View"]) {
-          amenities.push(" 景觀");
-        }
-        if (this.room.amenities["Smoke-Free"]) {
-          amenities.push(" 禁止吸煙");
-        }
-        if (this.room.amenities["Child-Friendly"]) {
-          amenities.push(" 適合兒童");
-        }
-        if (this.room.amenities["Pet-Friendly"]) {
-          amenities.push(" 可帶寵物");
-        }
+        const translate = {
+          "Wi-Fi": "wifi",
+          Breakfast: "早餐",
+          "Mini-Bar": "迷你吧",
+          "Room-Service": "客房服務",
+          Television: "電視",
+          "Air-Conditioner": "冷氣",
+          Refrigerator: "冰箱",
+          Sofa: "沙發",
+          "Great-View": "景觀",
+          "Smoke-Free": "禁止吸菸",
+          "Child-Friendly": "適合兒童",
+          "Pet-Friendly": "可帶寵物",
+        };
+        Object.keys(this.room.amenities).forEach((el) => {
+          if (this.room.amenities[el]) {
+            amenities.push(` ${translate[el]} `);
+          }
+        });
       }
       return amenities.toString();
     },
