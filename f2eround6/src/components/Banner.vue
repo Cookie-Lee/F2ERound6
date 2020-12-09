@@ -33,16 +33,21 @@ import imgLogo from "../assets/logo2.svg";
 export default {
   name: "Index",
   data: () => ({
-    scrollOptions: {
+    /*scrollOptions: {
       duration: 600,
       easing: "linear",
-    },
+    },*/
     imgRoom2,
     imgLogo,
   }),
   methods: {
     slideClick() {
       this.$vuetify.goTo("#rooms", this.scrollOptions);
+    },
+  },
+  computed: {
+    scrollOptions() {
+      return this.$store.state.scrollOptions;
     },
   },
 };

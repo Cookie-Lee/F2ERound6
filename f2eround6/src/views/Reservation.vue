@@ -8,12 +8,7 @@
     <SuccessTop v-if="isSuccess" />
     <div class="row pa-0 ma-0">
       <div class="col-6">
-        <ReservationCard
-          v-if="!isSuccess"
-          :roomid="room.id"
-          @setSuccess="setSuccess"
-          @setBooking="setBooking"
-        />
+        <ReservationCard v-if="!isSuccess" :roomid="room.id" />
         <SuccessCard v-if="isSuccess" :booking="bookingData" :room="room" />
       </div>
       <div class="col-6">
@@ -30,20 +25,13 @@ import ReservationCard from "../components/ReservationCard";
 import ReservationInfo from "../components/ReservationInfo";
 import SuccessTop from "../components/SuccessTop";
 import SuccessCard from "../components/SuccessCard";
+
+import { mapGetters } from "vuex";
+
 export default {
   name: "Reservation",
-  data: () => ({
-    isSuccess: false,
-    bookingData: {},
-  }),
-  methods: {
-    setSuccess(success) {
-      this.isSuccess = success;
-    },
-    setBooking(booking) {
-      this.bookingData = booking;
-    },
-  },
+  data: () => ({}),
+  methods: {},
   components: {
     ReservationTop,
     ReservationCard,
@@ -53,5 +41,8 @@ export default {
     SuccessCard,
   },
   props: ["room"],
+  computed: {
+    ...mapGetters(["isSuccess", "bookingData"]),
+  },
 };
 </script>

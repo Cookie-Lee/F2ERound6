@@ -109,29 +109,12 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        this.$http({
-          method: "post",
-          headers: {
-            Accept: "application/json",
-            Authorization:
-              "Bearer TyAhyPQ0BDpZZyZkG8wGmSGh0RQAb8frGPjKyMvf4XbPv3zXyENPv5csmmKq",
-            "Content-Type": "application/json",
-          },
-          url: `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${this.roomid}`,
-          data: JSON.stringify({
-            name: this.name,
-            tel: this.phone,
-            date: this.dates,
-          }),
-        })
-          .then((res) => {
-            console.log(res);
-            this.$emit("setSuccess", res.data.success);
-            this.$emit("setBooking", res.data.booking);
-          })
-          .catch((err) => {
-            this.alertmsg = err.response.data.message;
-          });
+        this.$store.dispatch("reservationSubmit", {
+          roomid: this.roomid,
+          name: this.name,
+          tel: this.phone,
+          date: this.dates,
+        });
       }
     },
   },

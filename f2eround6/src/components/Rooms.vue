@@ -14,29 +14,27 @@
 </template>
 <script>
 import RoomCard from "./RoomCard";
+
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Rooms",
   components: { RoomCard },
   created() {
-    this.$http({
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        Authorization:
-          "Bearer TyAhyPQ0BDpZZyZkG8wGmSGh0RQAb8frGPjKyMvf4XbPv3zXyENPv5csmmKq",
-      },
-      url: "https://challenge.thef2e.com/api/thef2e2019/stage6/rooms",
-    })
-      .then((res) => {
-        this.items = res.data.items;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //this.$store.dispatch("getRoomsItems");
+    //沒有傳參數時可以用mapActions
+    //有傳參數時就還是要用dispatch (參考ReservationCard.vue)
+    this.getRoomsItems();
   },
-  data: () => ({
-    items: [],
-  }),
+  computed: {
+    /*items() {
+      return this.$store.state.RoomsModules.Rooms.items;
+    },*/
+    ...mapGetters("RoomsModules", ["items"]),
+  },
+  methods: {
+    ...mapActions("RoomsModules", ["getRoomsItems"]),
+  },
 };
 </script>
 <style scoped>
