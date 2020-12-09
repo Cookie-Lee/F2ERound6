@@ -1,7 +1,8 @@
 <template>
-  <!--<v-app id="app">
+  <v-app id="app">
     <router-view />
-  </v-app>-->
+  </v-app>
+  <!--
   <div>
     <ul class="pa-16 ma-16">
       <li
@@ -13,6 +14,7 @@
       </li>
     </ul>
   </div>
+  -->
 </template>
 <script>
 export default {
