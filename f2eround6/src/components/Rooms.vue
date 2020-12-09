@@ -1,15 +1,11 @@
 <template>
   <div id="rooms">
     <div class="roomstitle">ROOMS</div>
-    <div class="row">
-      <RoomCard
-        class="col-4"
-        v-for="item in items"
-        :key="item.id"
-        :uid="item.id"
-        :imageUrl="item.imageUrl"
-      />
-    </div>
+    <v-row>
+      <v-col cols="4" v-for="item in items" :key="item.id">
+        <RoomCard :uid="item.id" :imageUrl="item.imageUrl" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
